@@ -1,0 +1,136 @@
+ackermann.c:65:15: missed:   Not inlining: recursive call.
+ackermann.c:65:15: missed:   Not inlining: recursive call.
+ackermann.c:64:27: missed:   Not inlining: recursive call.
+ackermann.c:85:14: missed:   will not early inline: main/30->ackermann/29, growth 8 exceeds --param early-inlining-insns divided by number of calls
+ackermann.c:83:14: missed:   will not early inline: main/30->ackermann/29, growth 8 exceeds --param early-inlining-insns divided by number of calls
+ackermann.c:82:14: missed:   will not early inline: main/30->ackermann/29, growth 8 exceeds --param early-inlining-insns divided by number of calls
+ackermann.c:81:14: missed:   will not early inline: main/30->ackermann/29, growth 8 exceeds --param early-inlining-insns divided by number of calls
+ackermann.c:54:1: missed:   not inlinable: log_error.constprop/44 -> __builtin_va_start/32, function body not available
+ackermann.c:54:1: missed:   not inlinable: log_error.constprop/44 -> __builtin_va_end/33, function body not available
+ackermann.c:57:1: missed:   not inlinable: log_info.constprop/43 -> __builtin_va_start/32, function body not available
+ackermann.c:57:1: missed:   not inlinable: log_info.constprop/43 -> __builtin_va_end/33, function body not available
+ackermann.c:22:9: missed:   not inlinable: print_log.part.0/38 -> printf/34, function body not available
+ackermann.c:26:9: missed:   not inlinable: print_log.part.0/38 -> printf/34, function body not available
+ackermann.c:30:9: missed:   not inlinable: print_log.part.0/38 -> printf/34, function body not available
+ackermann.c:34:9: missed:   not inlinable: print_log.part.0/38 -> printf/34, function body not available
+ackermann.c:39:9: missed:   not inlinable: print_log.part.0/38 -> printf/34, function body not available
+/usr/include/bits/stdio.h:41:10: missed:   not inlinable: print_log.part.0/38 -> vfprintf/36, function body not available
+ackermann.c:80:27: missed:   not inlinable: main/30 -> log_info.constprop/43, function not inlinable
+/usr/include/stdlib.h:363:16: missed:   not inlinable: main/30 -> strtol/37, function body not available
+ackermann.c:72:7: missed:   not inlinable: main/30 -> exit/31, function body not available
+ackermann.c:71:7: missed:   not inlinable: main/30 -> log_error.constprop/44, function not inlinable
+ackermann.c:65:15: missed:    not inlining recursively: frequency of recursive call is too large
+ackermann.c:65:15: missed:    not inlining recursively: frequency of recursive call is too large
+ackermann.c:65:15: missed:    not inlining recursively: frequency of recursive call is too large
+ackermann.c:65:15: missed:    not inlining recursively: frequency of recursive call is too large
+ackermann.c:65:15: missed:    not inlining recursively: --param max-inline-recursive-depth exceeded.
+ackermann.c:57:1: missed: statement clobbers memory: __builtin_va_start (&args, 0);
+ackermann.c:39:9: missed: statement clobbers memory: printf ("[INFO] ");
+/usr/include/bits/stdio.h:41:10: missed: statement clobbers memory: vfprintf (stdout.2_8, "count: %d\n", &args);
+ackermann.c:57:1: missed: statement clobbers memory: __builtin_va_end (&args);
+ackermann.c:54:1: missed: statement clobbers memory: __builtin_va_start (&args, 0);
+ackermann.c:26:9: missed: statement clobbers memory: printf ("[ERROR] ");
+/usr/include/bits/stdio.h:41:10: missed: statement clobbers memory: vfprintf (stdout.2_8, "usage: %s n\n", &args);
+ackermann.c:54:1: missed: statement clobbers memory: __builtin_va_end (&args);
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: multiple nested loops.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: multiple nested loops.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: multiple nested loops.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: multiple nested loops.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: multiple nested loops.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: multiple nested loops.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: multiple nested loops.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: control flow in loop.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: control flow in loop.
+ackermann.c:77:15: missed: couldn't vectorize loop
+ackermann.c:77:15: missed: not vectorized: loop nest containing two or more consecutive inner loops cannot be vectorized
+ackermann.c:65:15: missed: couldn't vectorize loop
+ackermann.c:65:15: missed: not vectorized: control flow in loop.
+ackermann.c:65:15: missed: couldn't vectorize loop
+ackermann.c:65:15: missed: not vectorized: control flow in loop.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: control flow in loop.
+ackermann.c:65:15: missed: couldn't vectorize loop
+ackermann.c:65:15: missed: not vectorized: control flow in loop.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: control flow in loop.
+/usr/include/stdlib.h:363:16: missed: statement clobbers memory: _22 = strtol (_3, 0B, 10);
+ackermann.c:80:27: missed: statement clobbers memory: log_info.constprop ("count: %d\n", count_13);
+ackermann.c:71:7: missed: statement clobbers memory: log_error.constprop ("usage: %s n\n", _1);
+ackermann.c:72:7: missed: statement clobbers memory: exit (1);
+ackermann.c:65:15: missed:   Not inlining: recursive call.
+ackermann.c:65:15: missed:   Not inlining: recursive call.
+ackermann.c:64:27: missed:   Not inlining: recursive call.
+ackermann.c:85:14: missed:   will not early inline: main/30->ackermann/29, growth 8 exceeds --param early-inlining-insns divided by number of calls
+ackermann.c:83:14: missed:   will not early inline: main/30->ackermann/29, growth 8 exceeds --param early-inlining-insns divided by number of calls
+ackermann.c:82:14: missed:   will not early inline: main/30->ackermann/29, growth 8 exceeds --param early-inlining-insns divided by number of calls
+ackermann.c:81:14: missed:   will not early inline: main/30->ackermann/29, growth 8 exceeds --param early-inlining-insns divided by number of calls
+ackermann.c:54:1: missed:   not inlinable: log_error.constprop/44 -> __builtin_va_start/32, function body not available
+ackermann.c:54:1: missed:   not inlinable: log_error.constprop/44 -> __builtin_va_end/33, function body not available
+ackermann.c:57:1: missed:   not inlinable: log_info.constprop/43 -> __builtin_va_start/32, function body not available
+ackermann.c:57:1: missed:   not inlinable: log_info.constprop/43 -> __builtin_va_end/33, function body not available
+ackermann.c:22:9: missed:   not inlinable: print_log.part.0/38 -> printf/34, function body not available
+ackermann.c:26:9: missed:   not inlinable: print_log.part.0/38 -> printf/34, function body not available
+ackermann.c:30:9: missed:   not inlinable: print_log.part.0/38 -> printf/34, function body not available
+ackermann.c:34:9: missed:   not inlinable: print_log.part.0/38 -> printf/34, function body not available
+ackermann.c:39:9: missed:   not inlinable: print_log.part.0/38 -> printf/34, function body not available
+/usr/include/bits/stdio.h:41:10: missed:   not inlinable: print_log.part.0/38 -> vfprintf/36, function body not available
+ackermann.c:80:27: missed:   not inlinable: main/30 -> log_info.constprop/43, function not inlinable
+/usr/include/stdlib.h:363:16: missed:   not inlinable: main/30 -> strtol/37, function body not available
+ackermann.c:72:7: missed:   not inlinable: main/30 -> exit/31, function body not available
+ackermann.c:71:7: missed:   not inlinable: main/30 -> log_error.constprop/44, function not inlinable
+ackermann.c:65:15: missed:    not inlining recursively: frequency of recursive call is too large
+ackermann.c:65:15: missed:    not inlining recursively: frequency of recursive call is too large
+ackermann.c:65:15: missed:    not inlining recursively: frequency of recursive call is too large
+ackermann.c:65:15: missed:    not inlining recursively: frequency of recursive call is too large
+ackermann.c:65:15: missed:    not inlining recursively: --param max-inline-recursive-depth exceeded.
+ackermann.c:57:1: missed: statement clobbers memory: __builtin_va_start (&args, 0);
+ackermann.c:39:9: missed: statement clobbers memory: printf ("[INFO] ");
+/usr/include/bits/stdio.h:41:10: missed: statement clobbers memory: vfprintf (stdout.2_8, "count: %d\n", &args);
+ackermann.c:57:1: missed: statement clobbers memory: __builtin_va_end (&args);
+ackermann.c:54:1: missed: statement clobbers memory: __builtin_va_start (&args, 0);
+ackermann.c:26:9: missed: statement clobbers memory: printf ("[ERROR] ");
+/usr/include/bits/stdio.h:41:10: missed: statement clobbers memory: vfprintf (stdout.2_8, "usage: %s n\n", &args);
+ackermann.c:54:1: missed: statement clobbers memory: __builtin_va_end (&args);
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: multiple nested loops.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: multiple nested loops.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: multiple nested loops.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: multiple nested loops.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: multiple nested loops.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: multiple nested loops.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: multiple nested loops.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: control flow in loop.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: control flow in loop.
+ackermann.c:77:15: missed: couldn't vectorize loop
+ackermann.c:77:15: missed: not vectorized: loop nest containing two or more consecutive inner loops cannot be vectorized
+ackermann.c:65:15: missed: couldn't vectorize loop
+ackermann.c:65:15: missed: not vectorized: control flow in loop.
+ackermann.c:65:15: missed: couldn't vectorize loop
+ackermann.c:65:15: missed: not vectorized: control flow in loop.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: control flow in loop.
+ackermann.c:65:15: missed: couldn't vectorize loop
+ackermann.c:65:15: missed: not vectorized: control flow in loop.
+ackermann.c:64:27: missed: couldn't vectorize loop
+ackermann.c:64:27: missed: not vectorized: control flow in loop.
+/usr/include/stdlib.h:363:16: missed: statement clobbers memory: _22 = strtol (_3, 0B, 10);
+ackermann.c:80:27: missed: statement clobbers memory: log_info.constprop ("count: %d\n", count_13);
+ackermann.c:71:7: missed: statement clobbers memory: log_error.constprop ("usage: %s n\n", _1);
+ackermann.c:72:7: missed: statement clobbers memory: exit (1);

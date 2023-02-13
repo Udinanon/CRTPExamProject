@@ -1,0 +1,232 @@
+
+;; Function __bswap_16 (null)
+;; enabled by -tree-original
+
+
+{
+  return (__uint16_t) __builtin_bswap16 ((int) __bsx);
+}
+
+
+;; Function __bswap_32 (null)
+;; enabled by -tree-original
+
+
+{
+  return (__uint32_t) __builtin_bswap32 (__bsx);
+}
+
+
+;; Function __bswap_64 (null)
+;; enabled by -tree-original
+
+
+{
+  return (__uint64_t) __builtin_bswap64 (__bsx);
+}
+
+
+;; Function __uint16_identity (null)
+;; enabled by -tree-original
+
+
+{
+  return __x;
+}
+
+
+;; Function __uint32_identity (null)
+;; enabled by -tree-original
+
+
+{
+  return __x;
+}
+
+
+;; Function __uint64_identity (null)
+;; enabled by -tree-original
+
+
+{
+  return __x;
+}
+
+
+;; Function print_log (null)
+;; enabled by -tree-original
+
+
+{
+  if (err_level < log_level)
+    {
+      return;
+    }
+  else
+    {
+      switch ((int) err_level)
+        {
+          case 1:;
+          printf ((const char * restrict) "[FATAL ERROR] ");
+          goto <D.2874>;
+          case 2:;
+          printf ((const char * restrict) "[ERROR] ");
+          goto <D.2874>;
+          case 3:;
+          printf ((const char * restrict) "[WARNING] ");
+          goto <D.2874>;
+          case 4:;
+          printf ((const char * restrict) "[DEBUG] ");
+          goto <D.2874>;
+          case 5:;
+          default:;
+          printf ((const char * restrict) "[INFO] ");
+          goto <D.2874>;
+          <D.2874>:;
+        }
+    }
+  vprintf (format, args);
+}
+
+
+;; Function log_fatal (null)
+;; enabled by -tree-original
+
+
+{
+  struct  args[1];
+
+    struct  args[1];
+  __builtin_va_start ((struct  *) &args, msg);
+  print_log (msg, 1, (struct  *) &args);
+  __builtin_va_end ((struct  *) &args);
+}
+
+
+;; Function log_error (null)
+;; enabled by -tree-original
+
+
+{
+  struct  args[1];
+
+    struct  args[1];
+  __builtin_va_start ((struct  *) &args, msg);
+  print_log (msg, 2, (struct  *) &args);
+  __builtin_va_end ((struct  *) &args);
+}
+
+
+;; Function log_warning (null)
+;; enabled by -tree-original
+
+
+{
+  struct  args[1];
+
+    struct  args[1];
+  __builtin_va_start ((struct  *) &args, msg);
+  print_log (msg, 3, (struct  *) &args);
+  __builtin_va_end ((struct  *) &args);
+}
+
+
+;; Function log_debug (null)
+;; enabled by -tree-original
+
+
+{
+  struct  args[1];
+
+    struct  args[1];
+  __builtin_va_start ((struct  *) &args, msg);
+  print_log (msg, 4, (struct  *) &args);
+  __builtin_va_end ((struct  *) &args);
+}
+
+
+;; Function log_info (null)
+;; enabled by -tree-original
+
+
+{
+  struct  args[1];
+
+    struct  args[1];
+  __builtin_va_start ((struct  *) &args, msg);
+  print_log (msg, 5, (struct  *) &args);
+  __builtin_va_end ((struct  *) &args);
+}
+
+
+;; Function ackermann (null)
+;; enabled by -tree-original
+
+
+{
+  if (m == 0)
+    {
+      return n + 1;
+    }
+  else
+    {
+      if (n == 0)
+        {
+          return ackermann (m + -1, 1);
+        }
+      else
+        {
+          return ackermann (m + -1, ackermann (m, n + -1));
+        }
+    }
+}
+
+
+;; Function main (null)
+;; enabled by -tree-original
+
+
+{
+  int n = atoi ((const char *) *(argv + 8));
+  int count = 0;
+  int total = 0;
+  int multiplied = 0;
+
+  if (argc <= 1)
+    {
+      log_error ((const char *) "usage: %s n\n", *argv);
+      exit (1);
+    }
+    int n = atoi ((const char *) *(argv + 8));
+    int count = 0;
+    int total = 0;
+    int multiplied = 0;
+  goto <D.2910>;
+  <D.2911>:;
+  {
+    int d1 = ackermann (n, 1);
+    int d2 = ackermann (n, count);
+
+    count = count + 1;
+    multiplied = multiplied * count;
+    if (multiplied <= 99)
+      {
+        log_info ((const char *) "count: %d\n", count);
+      }
+    SAVE_EXPR <ackermann (2, 2)>;, total = SAVE_EXPR <ackermann (2, 2)> + total;;
+    SAVE_EXPR <ackermann (multiplied, n)>;, total = SAVE_EXPR <ackermann (multiplied, n)> + total;;
+        int d1 = ackermann (n, 1);
+    total = d1 * multiplied + total;
+        int d2 = ackermann (n, count);
+    if (((unsigned int) count & 1) == 0)
+      {
+        total = total + d2;
+      }
+  }
+  <D.2910>:;
+  if (count < n) goto <D.2911>; else goto <D.2909>;
+  <D.2909>:;
+  return total;
+}
+return 0;
+

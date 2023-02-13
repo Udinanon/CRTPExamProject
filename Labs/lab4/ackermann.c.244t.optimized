@@ -1,0 +1,266 @@
+
+;; Function print_log (print_log, funcdef_no=6, decl_uid=2866, cgraph_uid=7, symbol_order=7)
+
+__attribute__((access ("^2[1]", )))
+void print_log (const char * format, error_level_t err_level, struct  * args)
+{
+  unsigned char log_level.0_1;
+  int _2;
+
+  <bb 2> :
+  log_level.0_1 = log_level;
+  if (err_level_6(D) < log_level.0_1)
+    goto <bb 3>; [INV]
+  else
+    goto <bb 4>; [INV]
+
+  <bb 3> :
+  // predicted unlikely by early return (on trees) predictor.
+  goto <bb 16>; [INV]
+
+  <bb 4> :
+  _2 = (int) err_level_6(D);
+  if (_2 == 4)
+    goto <bb 13>; [INV]
+  else
+    goto <bb 5>; [INV]
+
+  <bb 5> :
+  if (_2 > 4)
+    goto <bb 14>; [INV]
+  else
+    goto <bb 6>; [INV]
+
+  <bb 6> :
+  if (_2 == 3)
+    goto <bb 12>; [INV]
+  else
+    goto <bb 7>; [INV]
+
+  <bb 7> :
+  if (_2 > 3)
+    goto <bb 14>; [INV]
+  else
+    goto <bb 8>; [INV]
+
+  <bb 8> :
+  if (_2 == 1)
+    goto <bb 10>; [INV]
+  else
+    goto <bb 9>; [INV]
+
+  <bb 9> :
+  if (_2 == 2)
+    goto <bb 11>; [INV]
+  else
+    goto <bb 14>; [INV]
+
+  <bb 10> :
+  printf ("[FATAL ERROR] ");
+  goto <bb 15>; [INV]
+
+  <bb 11> :
+  printf ("[ERROR] ");
+  goto <bb 15>; [INV]
+
+  <bb 12> :
+  printf ("[WARNING] ");
+  goto <bb 15>; [INV]
+
+  <bb 13> :
+  printf ("[DEBUG] ");
+  goto <bb 15>; [INV]
+
+  <bb 14> :
+  printf ("[INFO] ");
+
+  <bb 15> :
+  vprintf (format_12(D), args_13(D));
+
+  <bb 16> :
+<L9>:
+  return;
+
+}
+
+
+
+;; Function log_error (log_error, funcdef_no=8, decl_uid=2880, cgraph_uid=9, symbol_order=9)
+
+void log_error (const char * msg)
+{
+  struct  args[1];
+
+  <bb 2> :
+  __builtin_va_start (&args, 0);
+  print_log (msg_3(D), 2, &args);
+  __builtin_va_end (&args);
+  args ={v} {CLOBBER};
+  return;
+
+}
+
+
+
+;; Function log_info (log_info, funcdef_no=11, decl_uid=2892, cgraph_uid=12, symbol_order=12)
+
+void log_info (const char * msg)
+{
+  struct  args[1];
+
+  <bb 2> :
+  __builtin_va_start (&args, 0);
+  print_log (msg_3(D), 5, &args);
+  __builtin_va_end (&args);
+  args ={v} {CLOBBER};
+  return;
+
+}
+
+
+
+;; Function ackermann (ackermann, funcdef_no=12, decl_uid=2897, cgraph_uid=13, symbol_order=13)
+
+int ackermann (int m, int n)
+{
+  int D.2918;
+  int _1;
+  int _2;
+  int _3;
+  int _4;
+  int _5;
+  int _12;
+  int _14;
+  int _15;
+
+  <bb 2> :
+  if (m_7(D) == 0)
+    goto <bb 3>; [INV]
+  else
+    goto <bb 4>; [INV]
+
+  <bb 3> :
+  _15 = n_8(D) + 1;
+  // predicted unlikely by early return (on trees) predictor.
+  goto <bb 7>; [INV]
+
+  <bb 4> :
+  if (n_8(D) == 0)
+    goto <bb 5>; [INV]
+  else
+    goto <bb 6>; [INV]
+
+  <bb 5> :
+  _1 = m_7(D) + -1;
+  _14 = ackermann (_1, 1);
+  // predicted unlikely by early return (on trees) predictor.
+  goto <bb 7>; [INV]
+
+  <bb 6> :
+  _2 = n_8(D) + -1;
+  _3 = ackermann (m_7(D), _2);
+  _4 = m_7(D) + -1;
+  _12 = ackermann (_4, _3);
+  // predicted unlikely by early return (on trees) predictor.
+
+  <bb 7> :
+  # _5 = PHI <_15(3), _14(5), _12(6)>
+<L4>:
+  return _5;
+
+}
+
+
+
+;; Function main (main, funcdef_no=13, decl_uid=2901, cgraph_uid=14, symbol_order=14)
+
+int main (int argc, char * * argv)
+{
+  int d2;
+  int d1;
+  int multiplied;
+  int total;
+  int count;
+  int n;
+  int D.2930;
+  int D.2927;
+  int D.2926;
+  char * _1;
+  char * * _2;
+  char * _3;
+  int _4;
+  unsigned int count.1_5;
+  unsigned int _6;
+  int _19;
+  int _24;
+  int _27;
+
+  <bb 2> :
+  if (argc_12(D) <= 1)
+    goto <bb 3>; [INV]
+  else
+    goto <bb 4>; [INV]
+
+  <bb 3> :
+  _1 = *argv_13(D);
+  log_error ("usage: %s n\n", _1);
+  exit (1);
+
+  <bb 4> :
+  _2 = argv_13(D) + 8;
+  _3 = *_2;
+  n_15 = atoi (_3);
+  count_16 = 0;
+  total_17 = 0;
+  multiplied_18 = 0;
+  goto <bb 9>; [INV]
+
+  <bb 5> :
+  count_20 = count_7 + 1;
+  multiplied_21 = multiplied_9 * count_20;
+  if (multiplied_21 <= 99)
+    goto <bb 6>; [INV]
+  else
+    goto <bb 7>; [INV]
+
+  <bb 6> :
+  log_info ("count: %d\n", count_20);
+
+  <bb 7> :
+  _24 = ackermann (2, 2);
+  total_25 = _24 + total_8;
+  _27 = ackermann (multiplied_21, n_15);
+  total_28 = _27 + total_25;
+  d1_30 = ackermann (n_15, 1);
+  _4 = d1_30 * multiplied_21;
+  total_31 = total_28 + _4;
+  d2_33 = ackermann (n_15, count_20);
+  count.1_5 = (unsigned int) count_20;
+  _6 = count.1_5 & 1;
+  if (_6 == 0)
+    goto <bb 8>; [INV]
+  else
+    goto <bb 9>; [INV]
+
+  <bb 8> :
+  total_34 = total_31 + d2_33;
+
+  <bb 9> :
+  # count_7 = PHI <count_16(4), count_20(7), count_20(8)>
+  # total_8 = PHI <total_17(4), total_31(7), total_34(8)>
+  # multiplied_9 = PHI <multiplied_18(4), multiplied_21(7), multiplied_21(8)>
+  if (count_7 < n_15)
+    goto <bb 5>; [INV]
+  else
+    goto <bb 10>; [INV]
+
+  <bb 10> :
+  _19 = total_8;
+
+  <bb 11> :
+<L9>:
+  return _19;
+
+}
+
+
