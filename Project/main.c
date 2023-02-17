@@ -43,6 +43,7 @@ int main(int argc, char* argv[]){
     struct v4l2_fmtdesc fmt; // Query Format Description structure
 
     int yuyvFound = 0;
+    int jpegFound = 0;
     // need to read more on internal V4L2 formats and data
     // https://www.kernel.org/doc/html/v4.8/media/uapi/v4l/pixfmt-yuyv.html
 
@@ -57,6 +58,9 @@ int main(int argc, char* argv[]){
         if (fmt.pixelformat == V4L2_PIX_FMT_YUYV)
         {
             yuyvFound = 1;
+        }
+        if (fmt.pixelformat == V4L2_PIX_FMT_JPEG){
+            jpegFound = 1;
         }
     }
 
@@ -77,7 +81,7 @@ int main(int argc, char* argv[]){
     printf("Setting format properties\n");
     format.fmt.pix.width = 640;
     format.fmt.pix.height = 480;
-    format.fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV;
+    format.fmt.pix.pixelformat = V4L2_PIX_FMT_JPEG;
 
     /* Step 6: Write desired format and check actual image size */
     printf("Setting the created format in V4L2\n");
@@ -206,7 +210,7 @@ int main(int argc, char* argv[]){
         /* Step 13: Do image processing */
         // processImage( buffers[buf.index].start, width, height, imagesize);
         printf("frame .. %d\n", frame);
-        FILE* file = fopen("output.yuy", "wb");
+        FILE* file = fopen("output.jpeg", "wb");
         fwrite(buffers[buf.index].start, imageSize, 1, file); // size is obtained from the query_buffer function
         frame++;
 
