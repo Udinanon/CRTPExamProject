@@ -13,10 +13,17 @@ first target is the default one, usually called `all`
 
 # V4L2
 
-We open a device, set it up via `ioctl` commands and then we can start querying it for images. 
+We open a device, set it up via `ioctl` commands, and then we can start querying it for images. 
 
-Here multiple options arise, from image formats to the appraoch we want to access memory.
+Here multiple options arise, from image formats to the approach we want to access memory.
 
-FOr images we can use YUYV cause it's simple and we'll probably be able to use it directly, and we shuld have some examples already available. Otherwise i tink the Motion Jpeg is alos quite simple.
+For images we can use JPEG to avoid decoding issues
 
-The topic of memory access is a bit more complex, if we use *streaming* we can access memory via a poionter, but i fear this might not work between threads or even processes, so we can0t just send one via TCP/PI and hope it works. We'll have to either open it up or use another I/O method, aybe directly reading the data and passing it along
+The topic of memory access is a bit more complex, if we use *streaming* we can access memory via a pointer, but i fear this might not work between processes or even threads, so we can't just send one via TCP/IP and hope it works. 
+We'll have to either open it up or use another I/O method, maybe directly reading the data and passing it along
+
+For our architecture we want:
+ - producer getting images from webcam, passing them via sockets to a consumer
+ - consumer receving them and saving them to disk
+
+pretty simple in theory
