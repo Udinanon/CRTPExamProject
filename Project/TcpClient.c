@@ -111,22 +111,14 @@ int main(int argc, char **argv) {
   send_string(text);
   answer = receive_string();
   printf("Received from Server: %s\n", answer);
-  getchar();
   // Beginning of Clinet core code
   while (!stopped) {
     /* Get a string command from terminal */
-    printf("Enter command: ");
-    scanf("%s", command);
-    if (!strcmp(command, "quit"))
-      break;
-    /* Receive the answer: first the number of characters
-       and then the answer itself */
-
-    answer[len] = 0;
-    printf("%s\n", answer);
-    free(answer);
-    if (!strcmp(command, "stop"))
-      break;
+    char* q = receive_string();
+    printf("%s", q);
+    char name[256];
+    fgets(name, sizeof(name), stdin);
+    send_string(name);
   }
   /* Close the socket */
   close(sd);

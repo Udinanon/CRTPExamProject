@@ -29,6 +29,9 @@
 
 // Utility and constants
 
+char* receive_string();
+void send_string(char*);
+
 #define CLEAR(x) memset(&(x), 0, sizeof(x))
 
 static int FRAME_width = 640;
@@ -86,8 +89,14 @@ typedef char PIXEL;
 static int frame_n = 0;
 
 static void process_image(const void *p, int size_bytes) {
-  handleConnection();
-  printf("frame .. %d\n", frame_n);
+  // p is a generic pointer to where the image resides, either directly as memory or as a mmap pointer or a userpointer
+
+  char* name_q;
+  asprintf(&name_q, "How should the frame %d be called?\n", frame_n);
+  send_string(name_q);
+  char* name;
+  name = receive_string();
+  printf("frame .. %d named %s\n", frame_n, name);
   if (v4l_format.fmt.pix.pixelformat == V4L2_PIX_FMT_MJPEG) {
     FILE *file = fopen("output.jpeg", "wb");
     fwrite((uint8_t *)p, v4l_format.fmt.pix.sizeimage, 1, file);  // size is obtained from the query_buffer function
@@ -205,10 +214,10 @@ static void mainloop(void) {
 
       r = select(fd + 1, &fds, NULL, NULL, &tv);
 
-      if (getchar() == "s") {  // stop command
+      /*if (getchar() == "s") {  // stop command
         mainloop_quit = 1;
         break;
-      }
+      }*/
 
       if (-1 == r) {
         if (EINTR == errno)
@@ -632,7 +641,7 @@ static int receive(int sd, char *retBuf, int size) {
   return 0;
 }
 
-char* receive_string() {
+char* receive_string(){
   unsigned int netLen;
   int len;
   char* message;
