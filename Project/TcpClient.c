@@ -78,10 +78,10 @@ static int receive(int sd, char *retBuf, int size) {
   return 0;
 }
 
-char* receive_string(){
+void* receive_data(){
   unsigned int netLen;
   int len;
-  char* message;
+  void* message;
   if (receive(sd, (char *)&netLen, sizeof(netLen))) {
     perror("recv");
     exit(0);
@@ -94,7 +94,7 @@ char* receive_string(){
     perror("recv");
     exit(1);
   }
-  message[len] = 0;
+  //message[len] = 0;
   return message;
 }
 /* Main client program. The IP address and the port number of
@@ -109,16 +109,20 @@ int main(int argc, char **argv) {
   setup_client();
   char * text = "alive";
   send_string(text);
-  answer = receive_string();
+  answer = receive_data();
   printf("Received from Server: %s\n", answer);
   // Beginning of Clinet core code
   while (!stopped) {
     /* Get a string command from terminal */
-    char* q = receive_string();
+    char *q = receive_data();
     printf("%s", q);
     char name[256];
     fgets(name, sizeof(name), stdin);
     send_string(name);
+    answer = receive_data();
+    printf("Received from Server: %p\n", answer);
+    FILE *file = fopen("output2.jpeg", "wb");
+    fwrite(answer, 614989, 1, file);
   }
   /* Close the socket */
   close(sd);

@@ -29,7 +29,7 @@
 
 // Utility and constants
 
-char* receive_string();
+void* receive_data();
 void send_string(char*);
 
 #define CLEAR(x) memset(&(x), 0, sizeof(x))
@@ -91,16 +91,29 @@ static int frame_n = 0;
 static void process_image(const void *p, int size_bytes) {
   // p is a generic pointer to where the image resides, either directly as memory or as a mmap pointer or a userpointer
 
-  char* name_q;
+  char* name_q = 0;
   asprintf(&name_q, "How should the frame %d be called?\n", frame_n);
   send_string(name_q);
-  char* name;
-  name = receive_string();
+  char* name = 0;
+  name = (char*)receive_data();
   printf("frame .. %d named %s\n", frame_n, name);
+
+  void* copy = 0;
+  int len = v4l_format.fmt.pix.sizeimage;
+  printf("Pointer: %p\n", p);
+  printf("Size of copy : %d\n", len);
+  printf("Size of copy content: %d\n", sizeof(*p));
+  unsigned int netLen = htonl(len);
+  if (send(currSd, &netLen, sizeof(netLen), 0) == -1)
+    perror("ERROR SENDING MSG LEN");
+  /* Send answer characters */
+  if (send(currSd, (uint8_t *)p, len, 0) == -1)
+    perror("ERROR SENDING MSG");
   if (v4l_format.fmt.pix.pixelformat == V4L2_PIX_FMT_MJPEG) {
-    FILE *file = fopen("output.jpeg", "wb");
-    fwrite((uint8_t *)p, v4l_format.fmt.pix.sizeimage, 1, file);  // size is obtained from the query_buffer function
-  }
+      FILE *file = fopen("output.jpeg", "wb");
+      printf("%d\n", v4l_format.fmt.pix.sizeimage);
+      fwrite((uint8_t *)p, v4l_format.fmt.pix.sizeimage, 1, file);  // size is obtained from the query_buffer function
+    }
   frame_n++;
 }
 
@@ -641,10 +654,10 @@ static int receive(int sd, char *retBuf, int size) {
   return 0;
 }
 
-char* receive_string(){
+void* receive_data(){
   unsigned int netLen;
   int len;
-  char* message;
+  void* message;
   if (receive(currSd, (char *)&netLen, sizeof(netLen))) {
     perror("recv");
     exit(0);
@@ -657,7 +670,6 @@ char* receive_string(){
     perror("recv");
     exit(1);
   }
-  message[len] = 0;
   return message;
 }
 
@@ -738,7 +750,7 @@ void setup_server() {
   /* When execution reaches this point a client established the connection.
       The returned socket (currSd) is used to communicate with the client */
   printf("Connection received from %s\n", inet_ntoa(retSin.sin_addr));
-  char* message = receive_string();
+  char* message = receive_data();
   printf("Client says: %s\n", message);
   char* video_info;
   asprintf(&video_info, "[%dx%d]\n", FRAME_width, FRAME_height);
@@ -836,7 +848,8 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
   }
-  io = IO_METHOD_MMAP;
+  io = IO_METHOD_USERPTR;
+  io = IO_METHOD_MMAP; //THey don0t seem to work across processes
   // io = IO_METHOD_READ; // apparently R/W is not ok, we'll have to use pointers maybe
 
   open_device();
