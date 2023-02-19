@@ -104,25 +104,31 @@ void* receive_data(){
    then printed. */
 int main(int argc, char **argv) {
   int stopped = FALSE;
-  char *command, *answer;
-  int len;
+  char *answer;
   setup_client();
   char * text = "alive";
   send_string(text);
   answer = receive_data();
   printf("Received from Server: %s\n", answer);
+
+  int imageSize = *(int *)receive_data();
+  printf("Receoived imagesize: %d\n", imageSize);
   // Beginning of Clinet core code
   while (!stopped) {
-    /* Get a string command from terminal */
+    // receive qustion and return answer regarding filename
     char *q = receive_data();
     printf("%s", q);
     char name[256];
     fgets(name, sizeof(name), stdin);
     send_string(name);
-    answer = receive_data();
-    printf("Received from Server: %p\n", answer);
-    FILE *file = fopen("output2.jpeg", "wb");
-    fwrite(answer, 614989, 1, file);
+    // receive all data from server
+    char* filename = receive_data();
+    printf("Filename received: %s\n", filename);
+    void* image = receive_data();
+    printf("Received from Server: %p\n", image);
+    asprintf(&filename, "%s.jpg", filename);
+    FILE *file = fopen(filename, "wb");
+    fwrite(image, imageSize, 1, file);
   }
   /* Close the socket */
   close(sd);

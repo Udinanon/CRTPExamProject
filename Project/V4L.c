@@ -94,15 +94,15 @@ static void process_image(const void *p, int size_bytes) {
   char* name_q = 0;
   asprintf(&name_q, "How should the frame %d be called?\n", frame_n);
   send_string(name_q);
+
   char* name = 0;
   name = (char*)receive_data();
   printf("frame .. %d named %s\n", frame_n, name);
+  send_string(name);
 
-  void* copy = 0;
   int len = v4l_format.fmt.pix.sizeimage;
   printf("Pointer: %p\n", p);
   printf("Size of copy : %d\n", len);
-  printf("Size of copy content: %d\n", sizeof(*p));
   unsigned int netLen = htonl(len);
   if (send(currSd, &netLen, sizeof(netLen), 0) == -1)
     perror("ERROR SENDING MSG LEN");
@@ -688,20 +688,6 @@ void send_string(char *string) {
     perror("ERROR SENDING MSG");
 }
 
-/* Handle an established  connection
-   routine receive is listed in the previous example */
-void handleConnection() {
-  unsigned int netLen;
-  int len;
-  int exit_status = 0;
-  char *command, *answer;
-  if (exit_status) {
-    // connection terminated only upon client request
-    printf("Connection terminated\n");
-    close(currSd);
-  }
-}
-
 void setup_server() {
   int sAddrLen, sd;
   int port = 11111;
@@ -755,6 +741,15 @@ void setup_server() {
   char* video_info;
   asprintf(&video_info, "[%dx%d]\n", FRAME_width, FRAME_height);
   send_string(video_info);
+
+  len = sizeof(v4l_format.fmt.pix.sizeimage);
+  netLen = htonl(len);
+  if (send(currSd, &netLen, sizeof(netLen), 0) == -1)
+    perror("ERROR SENDING MSG LEN");
+  /* Send answer characters */
+  if (send(currSd, &v4l_format.fmt.pix.sizeimage, len, 0) == -1)
+    perror("ERROR SENDING MSG");
+
   free(video_info);
 }
 
