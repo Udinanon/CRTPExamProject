@@ -210,10 +210,11 @@ void client(){
     fwrite(image_data, imageSize, 1, file);
     fclose(file);
     /* Write data item */
-    memcpy(sharedBuf->buffer[sharedBuf->writeIdx].data, image_data, imageSize);
+    Image *bufferImg = &sharedBuf->buffer[sharedBuf->writeIdx];
+     memcpy(bufferImg->data, image_data, imageSize);
     printf("Saved image %p to buffer!\n", image_data);
-    strcpy(sharedBuf->buffer[sharedBuf->writeIdx].filename, filename);
-    sharedBuf->buffer[sharedBuf->writeIdx].datasize = imageSize;
+    strcpy(bufferImg->filename, filename);
+    bufferImg->datasize = imageSize;
     /* Update write index */
     sharedBuf->writeIdx = (sharedBuf->writeIdx + 1) % BUFFER_SIZE;
     /* Signal that a new data slot is available */
@@ -242,14 +243,13 @@ void create_shared_memory_segment(){
   }
   for (int i = 0; i < BUFFER_SIZE; i++){
     // create shared memory segment for images in buffer
-    Image image = sharedBuf->buffer[i];
-    memId = shmget(IPC_PRIVATE, imageSize+1000000, 0666 | IPC_CREAT);
+    memId = shmget(IPC_PRIVATE, imageSize, 0666 | IPC_CREAT);
     if (memId == -1) {
       perror("Error in shmget");
       exit(0);
     }
-    image.data = shmat(memId, NULL, 0);
-    if (image.data == (void *)-1) {
+    sharedBuf->buffer[i].data = shmat(memId, NULL, 0);
+    if (sharedBuf->buffer[i].data == (void *)-1) {
       perror("Error in shmat");
       exit(0);
     }
