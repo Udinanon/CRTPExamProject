@@ -90,6 +90,7 @@ void send_string(char* string) {
    will be executed once. This is not however guaranteed and must
    be handled by the user program. The routine returns 0 upon
    successful completion, -1 otherwise */
+//Some issues are caused by this filling the bufer MORE than requested
 static int receive(int sd, char *retBuf, int size) {
   int totSize, currSize;
   totSize = 0;
@@ -114,11 +115,13 @@ void* receive_data(){
   /* Convert from Network byte order */
   len = ntohl(netLen);
   /* Allocate and receive the answer */
-  message = malloc(len + 1);
+  message = malloc(len);
+  printf("EXPECTED SIZE %d\n", len);
   if (receive(sd, message, len)) {
     perror("recv");
     exit(1);
   }
+  printf("Message %s %d\n", message, strlen(message));
   //message[len] = 0;
   return message;
 }
@@ -196,6 +199,7 @@ void client(){
 
     // receive all data from server
     filename = receive_data();
+    
     printf("Filename received: %s\n", filename);
     image_data = malloc(imageSize);
     image_data = receive_data();
@@ -214,6 +218,7 @@ void client(){
      memcpy(bufferImg->data, image_data, imageSize);
     printf("Saved image %p to buffer!\n", image_data);
     strcpy(bufferImg->filename, filename);
+    bufferImg->filename[strlen(filename)] = '\0';
     bufferImg->datasize = imageSize;
     /* Update write index */
     sharedBuf->writeIdx = (sharedBuf->writeIdx + 1) % BUFFER_SIZE;
