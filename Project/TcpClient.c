@@ -104,6 +104,28 @@ static int receive(int sd, char *retBuf, int size) {
   return 0;
 }
 
+char* receive_string() {
+  unsigned int netLen;
+  int len;
+  char *message;
+  if (receive(sd, (char *)&netLen, sizeof(netLen))) {
+    perror("recv");
+    exit(0);
+  }
+  /* Convert from Network byte order */
+  len = ntohl(netLen);
+  /* Allocate and receive the answer */
+  message = malloc(len);
+  printf("EXPECTED SIZE %d\n", len);
+  if (receive(sd, message, len)) {
+    perror("recv");
+    exit(1);
+  }
+  message[len] = '\0';
+  printf("Message %s %d\n", message, strlen(message));
+  return message;
+}
+
 void* receive_data(){
   unsigned int netLen;
   int len;
@@ -198,7 +220,7 @@ void client(){
   while (!stopped) {
 
     // receive all data from server
-    filename = receive_data();
+    filename = receive_string();
     
     printf("Filename received: %s\n", filename);
     image_data = malloc(imageSize);

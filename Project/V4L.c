@@ -86,11 +86,13 @@ static int xioctl(int fh, int request, void *arg) {
 // Program Core
 
 typedef char PIXEL;
-static int frame_n = 0;
+int frame_n = 0;
 
 static void process_image(const void *p, int size_bytes) {
   // p is a generic pointer to where the image resides, either directly as memory or as a mmap pointer or a userpointer
+  if (frame_n % 5 == 0){
   getchar();
+  }
   char* name;
   asprintf(&name, "frame_%d", frame_n);
   printf("frame .. %d named %s\n", frame_n, name);
@@ -118,25 +120,6 @@ static int read_frame(void) {
   unsigned int i;
 
   switch (io) {
-    case IO_METHOD_READ:
-      if (-1 == read(fd, buffers[0].start, buffers[0].length)) {
-        switch (errno) {
-          case EAGAIN:
-            return 0;
-
-          case EIO:
-            /* Could ignore EIO, see spec. */
-
-            /* fall through */
-
-          default:
-            errno_exit("read");
-        }
-      }
-
-      process_image(buffers[0].start, buffers[0].length);
-      break;
-
     case IO_METHOD_MMAP:
       CLEAR(buf);
 
@@ -680,6 +663,8 @@ void send_string(char *string) {
   /* Send answer characters */
   char string2[len];
   strcpy(string2, string);
+  string2[len] = '\0';
+  printf("STRING %s %d STRING2 %s %d \n", string, strlen(string), string2, strlen(string2));
   if (send(currSd, string2, len, 0) == -1)
     perror("ERROR SENDING MSG");
 }
