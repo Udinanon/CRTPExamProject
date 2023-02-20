@@ -19,7 +19,7 @@
 
 // Funcion to setup TCP Server 
 int sd, imageSize;
-struct sockaddr_in sin;
+struct sockaddr_in sock;
 
 void* receive_data();
 void send_string(char* string);
@@ -37,10 +37,10 @@ int setup_client() {
     exit(1);
   }
   /* fill in the socket structure with host information */
-  memset(&sin, 0, sizeof(sin));
-  sin.sin_family = AF_INET;
-  sin.sin_addr.s_addr = ((struct in_addr *)(hp->h_addr_list[0]))->s_addr;
-  sin.sin_port = htons(port);
+  memset(&sock, 0, sizeof(sock));
+  sock.sin_family = AF_INET;
+  sock.sin_addr.s_addr = ((struct in_addr *)(hp->h_addr_list[0]))->s_addr;
+  sock.sin_port = htons(port);
   /* create a new socket */
   if ((sd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
     perror("socket");
@@ -52,7 +52,7 @@ int setup_client() {
 void connect_server(){
   /* connect the socket to the port and host
    specified in struct sockaddr_in */
-  if (connect(sd, (struct sockaddr *)&sin, sizeof(sin)) == -1) {
+  if (connect(sd, (struct sockaddr *)&sock, sizeof(sock)) == -1) {
     perror("connect");
     exit(1);
   }
@@ -116,13 +116,11 @@ char* receive_string() {
   len = ntohl(netLen);
   /* Allocate and receive the answer */
   message = malloc(len);
-  printf("EXPECTED SIZE %d\n", len);
   if (receive(sd, message, len)) {
     perror("recv");
     exit(1);
   }
   message[len] = '\0';
-  printf("Message %s %d\n", message, strlen(message));
   return message;
 }
 
@@ -138,12 +136,10 @@ void* receive_data(){
   len = ntohl(netLen);
   /* Allocate and receive the answer */
   message = malloc(len);
-  printf("EXPECTED SIZE %d\n", len);
   if (receive(sd, message, len)) {
     perror("recv");
     exit(1);
   }
-  printf("Message %s %d\n", message, strlen(message));
   //message[len] = 0;
   return message;
 }
@@ -170,7 +166,6 @@ BufferData* sharedBuf;
 
 void file_writer(){
   Image image;
-  printf("file_writer here!\n");
   while (1) {
     /* Wait for availability of at least one data slot */
     sem_wait(&sharedBuf->dataAvailableSem);
@@ -183,29 +178,23 @@ void file_writer(){
     image.data = malloc(image.datasize);
     // copy frame data
     memcpy(image.data, sharedBuf->buffer[sharedBuf->readIdx].data, image.datasize);
-    /* Update read index */
+    printf("Adress of %s for FW: %p\n", image.filename, sharedBuf->buffer[sharedBuf->readIdx].data);
+        /* Update read index */
     sharedBuf->readIdx = (sharedBuf->readIdx + 1) % BUFFER_SIZE;
-    printf("Got new image to write\n");
-    printf("Image %p, Size %d, name %s\n", image.data, image.datasize, image.filename);
     /* Signal that a new empty slot is available */
     sem_post(&sharedBuf->roomAvailableSem);
     /* Exit critical section */
     sem_post(&sharedBuf->mutexSem);
-    printf("WRiter reliquishes critial section\n");
     
     // write image data to disk
     char ext[] = ".jpeg";
     strcat(image.filename, ext); 
     //asprintf(filename, "%s.jpg", image.filename);
-    printf("%s\n", image.filename);
     FILE *file = fopen(image.filename, "wb");
    // FILE *file = fopen("test.jpg", "wb");
-    printf("%s\n", image.filename);
     fwrite(image.data, image.datasize, 1, file);
-    // free frame data memory
-    printf("%s\n", image.filename);
+    printf("Written file: %s\n", image.filename);
   }
-  printf("Filewriter done!\n");
 }
 
 void client(){
@@ -238,7 +227,8 @@ void client(){
     /* Write data item */
     Image *bufferImg = &sharedBuf->buffer[sharedBuf->writeIdx];
      memcpy(bufferImg->data, image_data, imageSize);
-    printf("Saved image %p to buffer!\n", image_data);
+    printf("Adress of %s for C: %p\n", filename, sharedBuf->buffer[sharedBuf->readIdx].data);
+
     strcpy(bufferImg->filename, filename);
     bufferImg->filename[strlen(filename)] = '\0';
     bufferImg->datasize = imageSize;
@@ -287,7 +277,7 @@ void cleanup_shared_memory(){
   //TODO
 }
 
-int main(int argc, char **argv) {
+int main() {
   setup_client(); // the TCP server is setup for connection
 
   pid_t pids[3];
