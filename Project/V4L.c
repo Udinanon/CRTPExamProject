@@ -90,13 +90,9 @@ static int frame_n = 0;
 
 static void process_image(const void *p, int size_bytes) {
   // p is a generic pointer to where the image resides, either directly as memory or as a mmap pointer or a userpointer
-
-  char* name_q = 0;
-  asprintf(&name_q, "How should the frame %d be called?\n", frame_n);
-  send_string(name_q);
-
-  char* name = 0;
-  name = (char*)receive_data();
+  getchar();
+  char* name;
+  asprintf(&name, "frame_%d", frame_n);
   printf("frame .. %d named %s\n", frame_n, name);
   send_string(name);
 

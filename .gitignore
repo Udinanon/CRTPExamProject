@@ -7,6 +7,9 @@
 # Unignore all dirs
 !*/
 
+*.jpg
+*.jpeg
+
 
 # Prerequisites
 *.d
@@ -60,3 +63,4 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+.vscode/ltex.dictionary.en-US.txt
